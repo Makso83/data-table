@@ -49,6 +49,7 @@ function Table(props) {
     <>
       <TableFilter
         list={list}
+        sortByField={sortByField}
         onSearchHandler={searchInObject}
         searchWord={searchWord}
         setSearchWord={setSearchWord}

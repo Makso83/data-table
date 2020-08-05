@@ -7,17 +7,18 @@ function TableFilter(props) {
     setSearchWord,
     setSortedList,
     list,
+    sortByField,
   } = props;
 
   const onInputChange = (e) => {
     setSearchWord(e.target.value);
     if (e.target.value === "") {
-      setSortedList(onSearchHandler("", list));
+      setSortedList(sortByField(onSearchHandler("", list), "id"));
     }
   };
 
   const findButtonClickHandler = () => {
-    setSortedList(onSearchHandler(searchWord, list));
+    setSortedList(sortByField(onSearchHandler(searchWord, list), "id"));
   };
 
   return (
