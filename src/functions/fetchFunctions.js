@@ -9,7 +9,7 @@ export const fetchData = async (set = SMALL_SET) => {
     const data = await responce.json();
     return data;
   }  catch (err) {
-    console.log(err.message);
+    console.warn(err.message);
   }
 
 }

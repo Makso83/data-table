@@ -37,6 +37,7 @@ function Table(props) {
   };
 
   useEffect(() => {
+    resetDetails();
     setCurrentPage(1);
     setSortedList(sortByField(list, sortingType.field, sortingType.reversed));
   }, [list, sortingType.field, sortingType.reversed]);
