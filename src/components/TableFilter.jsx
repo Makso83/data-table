@@ -1,17 +1,23 @@
 import React from "react";
 
 function TableFilter(props) {
-  const { onSearchHandler, searchWord, setSearchWord, setSortedList } = props;
+  const {
+    onSearchHandler,
+    searchWord,
+    setSearchWord,
+    setSortedList,
+    list,
+  } = props;
 
   const onInputChange = (e) => {
     setSearchWord(e.target.value);
     if (e.target.value === "") {
-      setSortedList(onSearchHandler(""));
+      setSortedList(onSearchHandler("", list));
     }
   };
 
   const findButtonClickHandler = () => {
-    setSortedList(onSearchHandler(searchWord));
+    setSortedList(onSearchHandler(searchWord, list));
   };
 
   return (
@@ -28,7 +34,11 @@ function TableFilter(props) {
         type="button"
         onClick={findButtonClickHandler}
         className="filter-block__button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="30" fill="#ffffff">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          width="30"
+          fill="#ffffff">
           <path
             d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 
             44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 

@@ -11,21 +11,27 @@ export const sortByField = (arr, field, order = false) => {
   return result;
 };
 
-export const searchInObject = (phrase, defaultList = {}) => {
-  const keysArray = Object.keys(defaultList);
+export const searchInObject = (phrase, defaultList = []) => {
+  const [...firstInARow] = defaultList;
+  const keysArray = Object.keys(firstInARow);
   if (keysArray.length === 0) {
     return [];
   }
-
+  if (typeof phrase !== 'string') {
+    return [];
+  }
   if (phrase === "") {
-    return sortByField(defaultList, "id");
+    return defaultList;
   }
   const result = defaultList.filter((row) => {
-    if (row.firstName.toLowerCase().includes(phrase.toLowerCase())) return true;
-    if (row.lastName.toLowerCase().includes(phrase.toLowerCase())) return true;
-    if (row.email.toLowerCase().includes(phrase.toLowerCase())) return true;
-    if (row.phone.toLowerCase().includes(phrase.toLowerCase())) return true;
-    return false;
+      const rowKeys = Object.keys(row);
+      const resultArray = rowKeys.filter((key) => {
+        if (typeof key === 'string' && typeof row[key] === 'string') {
+          return row[key].toLowerCase().includes(phrase.toLowerCase())
+        }
+        return false;
+      })
+      return resultArray.length > 0;
   });
   return result;
 };

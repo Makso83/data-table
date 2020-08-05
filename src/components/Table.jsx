@@ -6,6 +6,7 @@ import TableFilter from "./TableFilter";
 import TablePagination from "./TablePagination";
 import InfoDetails from "./InfoDetails";
 import AddNewRow from "./AddNewRow";
+import { searchInObject, sortByField } from "../functions/table-functions";
 
 function Table(props) {
   const { list } = props;
@@ -22,7 +23,7 @@ function Table(props) {
   const resetDetails = () => {
     setIsDetailsVisible(false);
     setSelectedRow({});
-  }
+  };
 
   const onSortFieldSelect = (newField) => {
     if (newField === sortingType.field) {
@@ -33,35 +34,6 @@ function Table(props) {
     }
     resetDetails();
     return setSortingType({ field: newField, reversed: false });
-  };
-
-  const sortByField = (arr, field, order = false) => {
-    const result = [...arr].sort((a, b) => {
-      if (typeof a[field] === "string") {
-        return a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1;
-      }
-      return a[field] > b[field] ? 1 : -1;
-    });
-    if (order) {
-      return result.reverse();
-    }
-    
-    return result;
-  };
-
-  const onSearchHandler = (phrase, defaultList = list) => {
-    if (phrase === "") {
-      return sortByField(defaultList, "id");
-    }
-    const result = list.filter((row) => {
-      if (row.firstName.toLowerCase().includes(phrase.toLowerCase())) return true;
-      if (row.lastName.toLowerCase().includes(phrase.toLowerCase())) return true;
-      if (row.email.toLowerCase().includes(phrase.toLowerCase())) return true;
-      if (row.phone.toLowerCase().includes(phrase.toLowerCase())) return true;
-      return false;
-    });
-    resetDetails();
-    return result;
   };
 
   useEffect(() => {
@@ -76,7 +48,8 @@ function Table(props) {
   return (
     <>
       <TableFilter
-        onSearchHandler={onSearchHandler}
+        list={list}
+        onSearchHandler={searchInObject}
         searchWord={searchWord}
         setSearchWord={setSearchWord}
         setSortedList={setSortedList}
@@ -103,7 +76,7 @@ function Table(props) {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
-      {isDetailsVisible ? <InfoDetails selectedRow={selectedRow}/> : null}
+      {isDetailsVisible ? <InfoDetails selectedRow={selectedRow} /> : null}
     </>
   );
 }
